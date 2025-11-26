@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Displayplaces from './pages/Displayplaces';
 import PlaceDetail from './pages/PlaceDetail';
 import DistrictPlaces from './pages/DistrictPlaces';
+import PlacesByCategory from './pages/Categorypage';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             <Route path='/places' element={<Displayplaces />} />
             <Route path="place/:id" element={<PlaceDetail />} />
             <Route path="/district/:district" element={<DistrictPlaces />} />
+            <Route path='/exp' element={<PlacesByCategory/>}/>
 
         </Route>
       </Routes>

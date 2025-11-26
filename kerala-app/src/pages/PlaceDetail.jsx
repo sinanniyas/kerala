@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Spinner, Badge } from "react-bootstrap";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const PlaceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -13,7 +15,7 @@ const PlaceDetail = () => {
   useEffect(() => {
     const fetchPlace = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/places");
+        const res = await axios.get(`${apiUrl}/api/places`);
 
         const selected = res.data.find((p) => p._id === id);
 

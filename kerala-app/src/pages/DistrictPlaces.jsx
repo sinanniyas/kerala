@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, Row, Col, Pagination, Badge, Spinner } from "react-bootstrap";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const DistrictPlaces = () => {
   const { district } = useParams();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const DistrictPlaces = () => {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/places");
+        const res = await axios.get(`${apiUrl}/api/places`);
         const filtered = res.data.filter(
           (p) => p.district.toLowerCase() === district.toLowerCase()
         );

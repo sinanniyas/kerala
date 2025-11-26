@@ -4,6 +4,8 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const DisplayPlaces = () => {
   const [placesData, setPlacesData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const DisplayPlaces = () => {
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/places");
+        const res = await axios.get(`${apiUrl}/api/places`);
         const formatted = res.data.map((place) => ({
           id: place._id,
           title: place.name,

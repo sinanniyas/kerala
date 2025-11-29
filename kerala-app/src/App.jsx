@@ -6,6 +6,7 @@ import Displayplaces from './pages/Displayplaces';
 import PlaceDetail from './pages/PlaceDetail';
 import DistrictPlaces from './pages/DistrictPlaces';
 import PlacesByCategory from './pages/Categorypage';
+import CategoryFilter from './pages/Categoryfilter';
 
 const App = () => {
   return (
@@ -13,11 +14,11 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Frontpage />} />
-            <Route path='/places' element={<Displayplaces />} />
-            <Route path="place/:id" element={<PlaceDetail />} />
-            <Route path="/district/:district" element={<DistrictPlaces />} />
-            <Route path='/exp' element={<PlacesByCategory/>}/>
-
+          <Route path='/places' element={<Displayplaces />} />
+          <Route path='/places/:category' element={<PlacesByCategory />} /> {/* <-- Dynamic route */}
+          <Route path="place/:id" element={<PlaceDetail />} />
+          <Route path="/district/:district" element={<DistrictPlaces />} />
+          <Route path='/catfil' element={<CategoryFilter/>}/>  
         </Route>
       </Routes>
     </BrowserRouter>

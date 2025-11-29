@@ -40,7 +40,6 @@ export default function NavbarTop() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Navigate to selected district
   const handleDistrictSelect = (name) => {
     navigate(`/district/${name.toLowerCase()}`);
     setShowDropdown(false);
@@ -84,6 +83,7 @@ export default function NavbarTop() {
           ref={dropdownRef}
           style={{ position: "relative", flex: 1, maxWidth: 350, margin: "0 30px" }}
           onMouseEnter={() => setShowDropdown(true)}
+          onMouseLeave={() => { if (!search) setShowDropdown(false); }} // hide on leave if not typing
         >
           <Form.Control
             type="text"
@@ -152,14 +152,14 @@ export default function NavbarTop() {
           <Nav className="ms-auto gap-3 align-items-center">
             <Nav.Link as={Link} to="/" style={{ color: "white" }} onClick={() => setExpanded(false)}>Home</Nav.Link>
             <Nav.Link as={Link} to="/places" style={{ color: "white" }} onClick={() => setExpanded(false)}>Places</Nav.Link>
-            <Nav.Link as={Link} to="/exp" style={{ color: "white" }} onClick={() => setExpanded(false)}>Experiences</Nav.Link>
+            <Nav.Link as={Link} to="/catfil" style={{ color: "white" }} onClick={() => setExpanded(false)}>Experiences</Nav.Link>
             <Nav.Link as={Link} to="/plan" style={{ color: "white" }} onClick={() => setExpanded(false)}>Plan Trip</Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
       </Container>
 
-      {/* White placeholder CSS */}
+      {/* Placeholder CSS */}
       <style>
         {`
           .search-input::placeholder {

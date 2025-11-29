@@ -1,49 +1,57 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Card, Row, Col, Container } from "react-bootstrap";
-import varkalaImg from "../images/varkala.webp";
-import munnarImg from "../images/munnar.webp";
-import wayanadImg from "../images/wayanad.webp";
-import kochiImg from "../images/kochi.webp";
-import athirapallyImg from "../images/athirapally.webp";
-import ponmudiImg from "../images/ponmudi.webp";
-import anamudiImg from "../images/anamudi.webp";
-import vagamonImg from "../images/vagamon.webp";
-
-const spots = [
-  { name: "Varkala", desc: "Beach + cliffs + café dates", img: varkalaImg },
-  { name: "Munnar", desc: "Tea hills + dreamy sunrise", img: munnarImg },
-  { name: "Wayanad", desc: "Fog, forests & wild trails", img: wayanadImg },
-  { name: "Fort Kochi", desc: "Art cafes + instagram lanes", img: kochiImg },
-
-  { name: "Vagamon", desc: "Paraglide & pine forest snaps", img: vagamonImg },
-  { name: "Anamudi Base", desc: "Highest peak basecamp trek", img: anamudiImg },
-  { name: "Ponmudi", desc: "Crazy hairpins + hill hostels", img: ponmudiImg },
-  {
-    name: "Athirapally",
-    desc: "Baahubali waterfalls moment",
-    img: athirapallyImg,
-  },
-];
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function TopSpots() {
-  return (
-    <Container className="py-5 " style={{ background: "#f7fdf9"  }} >
+  const [spots, setSpots] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const loadPlaces = async () => {
+      try {
+        const res = await axios.get("https://kerala-i5mr.onrender.com/api/places");
+
+        // Shuffle & pick 8 random places
+        const random8 = res.data
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 8);
+
+        setSpots(random8);
+      } catch (err) {
+        console.error("Error fetching places", err);
+      }
+    };
+
+    loadPlaces();
+  }, []);
+
+  const openPlace = (id) => {
+    navigate(`/place/${id}`);
+  };
+
+  return (
+    <Container className="py-5" style={{ background: "#f7fdf9" }}>
       <h2 className="text-center fw-bold mb-4">
-        Where backpackers love to go in Kerala 
+        Let us pick for you
       </h2>
 
       <Row xs={1} sm={2} md={2} lg={4} className="g-4">
-        {spots.map((x, i) => (
-          <Col key={i}>
-            <Card className="border-0 shadow-sm h-100">
+        {spots.map((p) => (
+          <Col key={p._id}>
+            <Card
+              className="border-0 shadow-sm h-100"
+              style={{ cursor: "pointer" }}
+              onClick={() => openPlace(p._id)}
+            >
               <Card.Img
-                src={x.img}
+                src={p.imageUrl}
+                alt={p.name}
                 style={{ height: "200px", objectFit: "cover" }}
               />
               <Card.Body>
-                <Card.Title>{x.name}</Card.Title>
-                <Card.Text className="text-muted">{x.desc}</Card.Text>
+                <Card.Title>{p.name}</Card.Title>
+                <Card.Text className="text-muted">{p.description}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

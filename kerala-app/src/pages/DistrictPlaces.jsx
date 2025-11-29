@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Card, Row, Col, Pagination, Badge, Spinner } from "react-bootstrap";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Card, Row, Col, Pagination, Badge, Spinner, Form } from "react-bootstrap";
 import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -10,18 +10,34 @@ const DistrictPlaces = () => {
   const navigate = useNavigate();
 
   const [placesData, setPlacesData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch ALL places then filter by district
+  const categories = [
+    "All",
+    "Beaches",
+    "Hill Stations",
+    "Backwaters",
+    "Heritage",
+    "Waterfalls",
+    "Trekking",
+    "Wildlife",
+    "Scenic Spots",
+    "Other",
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Fetch data
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
         const res = await axios.get(`${apiUrl}/api/places`);
-        const filtered = res.data.filter(
+        const districtFiltered = res.data.filter(
           (p) => p.district.toLowerCase() === district.toLowerCase()
         );
 
-        const formatted = filtered.map((place) => ({
+        const formatted = districtFiltered.map((place) => ({
           id: place._id,
           title: place.name,
           description: place.shortDescription,
@@ -30,6 +46,7 @@ const DistrictPlaces = () => {
         }));
 
         setPlacesData(formatted);
+        setFilteredData(formatted);
       } catch (error) {
         console.error("Error fetching:", error);
       } finally {
@@ -40,21 +57,30 @@ const DistrictPlaces = () => {
     fetchPlaces();
   }, [district]);
 
+  // Handle category filtering
+  useEffect(() => {
+    if (selectedCategory === "All") {
+      setFilteredData(placesData);
+    } else {
+      setFilteredData(
+        placesData.filter((p) => p.category === selectedCategory)
+      );
+    }
+  }, [selectedCategory, placesData]);
+
   // Pagination
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
-  setCurrentPage(page);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentItems = placesData.slice(indexOfFirst, indexOfLast);
-
-  const totalPages = Math.ceil(placesData.length / itemsPerPage);
+  const currentItems = filteredData.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const categoryColors = {
     Backwaters: "#006d77",
@@ -62,6 +88,9 @@ const DistrictPlaces = () => {
     Beaches: "#0077b6",
     Heritage: "#9b2226",
     Wildlife: "#6a4c93",
+    Waterfalls: "#00b4d8",
+    Trekking: "#40916c",
+    "Hill Stations": "#2a9d8f",
   };
 
   if (loading) {
@@ -81,7 +110,6 @@ const DistrictPlaces = () => {
       }}
     >
       <div className="container">
-
         {/* Back Button */}
         <button
           className="btn btn-outline-success mb-4"
@@ -91,7 +119,7 @@ const DistrictPlaces = () => {
           ← Back
         </button>
 
-        {/* Header Section */}
+        {/* Header */}
         <div className="text-center mb-5">
           <h1
             style={{
@@ -105,11 +133,9 @@ const DistrictPlaces = () => {
           >
             Explore {district}
           </h1>
-
-          <p className="text-muted">
-            Discover the best tourist attractions in {district}
+          <p style={{ fontSize: "1.2rem", color: "#495057" }}>
+            Discover the best attractions in {district}
           </p>
-
           <div
             style={{
               width: "80px",
@@ -121,6 +147,24 @@ const DistrictPlaces = () => {
           ></div>
         </div>
 
+        {/* Category Filter */}
+        <div className="d-flex justify-content-start mb-4">
+          <Form.Select
+            style={{ width: "250px", fontWeight: "600" }}
+            value={selectedCategory}
+            onChange={(e) => {
+              setSelectedCategory(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </Form.Select>
+        </div>
+
         {/* Cards */}
         <Row className="g-4">
           {currentItems.map((place) => (
@@ -130,9 +174,16 @@ const DistrictPlaces = () => {
                 style={{
                   borderRadius: "16px",
                   overflow: "hidden",
-                  transition: "all 0.3s ease",
                   cursor: "pointer",
-                  backgroundColor: "#fff",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-8px)";
+                  e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
                 }}
                 onClick={() => navigate(`/place/${place.id}`)}
               >
@@ -146,7 +197,6 @@ const DistrictPlaces = () => {
                       transition: "transform 0.4s ease",
                     }}
                   />
-
                   <Badge
                     bg="light"
                     style={{
@@ -157,9 +207,7 @@ const DistrictPlaces = () => {
                       fontWeight: "600",
                       padding: "6px 12px",
                       fontSize: "0.75rem",
-                      border: `2px solid ${
-                        categoryColors[place.category] || "#087f5b"
-                      }`,
+                      border: `2px solid ${categoryColors[place.category] || "#087f5b"}`,
                       backgroundColor: "rgba(255,255,255,0.95)",
                     }}
                   >
@@ -174,11 +222,11 @@ const DistrictPlaces = () => {
                       fontWeight: "700",
                       color: "#212529",
                       marginBottom: "0.75rem",
+                      lineHeight: "1.4",
                     }}
                   >
                     {place.title}
                   </Card.Title>
-
                   <Card.Text
                     style={{
                       fontSize: "0.875rem",
@@ -200,7 +248,8 @@ const DistrictPlaces = () => {
                     fontSize: "0.875rem",
                   }}
                 >
-                  Explore <span style={{ marginLeft: "6px" }}>→</span>
+                  Explore{" "}
+                  <span style={{ marginLeft: "6px", fontSize: "1rem" }}>→</span>
                 </div>
               </Card>
             </Col>
@@ -208,31 +257,27 @@ const DistrictPlaces = () => {
         </Row>
 
         {/* Pagination */}
-        {/* Pagination */}
-<div className="d-flex justify-content-center mt-5">
-  <Pagination>
-    <Pagination.Prev
-      disabled={currentPage === 1}
-      onClick={() => handlePageChange(currentPage - 1)}
-    />
-
-    {[...Array(totalPages)].map((_, i) => (
-      <Pagination.Item
-        key={i}
-        active={i + 1 === currentPage}
-        onClick={() => handlePageChange(i + 1)}
-      >
-        {i + 1}
-      </Pagination.Item>
-    ))}
-
-    <Pagination.Next
-      disabled={currentPage === totalPages}
-      onClick={() => handlePageChange(currentPage + 1)}
-    />
-  </Pagination>
-</div>
-
+        <div className="d-flex justify-content-center mt-5">
+          <Pagination style={{ gap: "6px" }}>
+            <Pagination.Prev
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}
+            />
+            {[...Array(totalPages)].map((_, i) => (
+              <Pagination.Item
+                key={i + 1}
+                active={i + 1 === currentPage}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(currentPage + 1)}
+            />
+          </Pagination>
+        </div>
       </div>
     </div>
   );

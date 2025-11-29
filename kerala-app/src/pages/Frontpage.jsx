@@ -12,25 +12,21 @@ import Footer from "../components/Footer";
 import Plans from "../components/Itenary";
 import BudgetCalculator from "../components/Budget";
 import DistrictSelector from "../components/District";
-import HiddenGems from "../components/Hiddengems";
 
 const Frontpage = () => {
   return (
     <div>
-   
       <Hero />
       <DistrictSelector />
       <TopSpots />
-      <HiddenGems />
       <TripStyles />
-       <LocalFood />
+      <LocalFood />
       <Festivals />
       <StayTypes />
       <TransportGuide />
       <BudgetCalculator />
       <Plans />
       <BestTime />
-     
     </div>
   );
 };

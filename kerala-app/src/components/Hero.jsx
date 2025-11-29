@@ -1,6 +1,16 @@
 import { Container, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function Hero() {
+
+  const navigate = useNavigate()
+
+ const goto = () => {
+  navigate('/places')
+ }
+
   return (
     <div
       style={{
@@ -43,6 +53,7 @@ export default function Hero() {
 
           <Button
             size="lg"
+            onClick={goto}
             style={{
               marginTop: "40px",
               padding: "14px 40px",

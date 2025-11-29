@@ -2,25 +2,26 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-export default function TripStyles() {
+const CategoryFilter = () => {
   const navigate = useNavigate();
 
-  // All categories with emojis
+  // Hardcoded categories with emojis
   const categories = [
-    { emoji: "🏰", title: "Heritage", sub: "Explore history & culture" },
-    { emoji: "🏖️", title: "Beaches", sub: "Sun & Sand" },
-    { emoji: "⛰️", title: "Hill Stations", sub: "Cool & Scenic" },
-    { emoji: "🐾", title: "Wildlife", sub: "Nature & Animals" },
-    { emoji: "🚤", title: "Backwaters", sub: "Relaxing boat trips" },
-    { emoji: "💦", title: "Waterfalls", sub: "Majestic & Refreshing" },
-    { emoji: "🌄", title: "Scenic Spots", sub: "Breathtaking views" },
-    { emoji: "🥾", title: "Trekking", sub: "Adventure & Trails" },
-    { emoji: "🏯", title: "Fort", sub: "History & Architecture" },
-    { emoji: "⭐", title: "All", sub: "See everything" },
+    { emoji: "⭐", title: "All" },
+    { emoji: "🏰", title: "Heritage" },
+    { emoji: "🏖️", title: "Beaches" },
+    { emoji: "⛰️", title: "Hill Stations" },
+    { emoji: "🐾", title: "Wildlife" },
+    { emoji: "🚤", title: "Backwaters" },
+    { emoji: "💦", title: "Waterfalls" },
+    { emoji: "🌄", title: "Scenic Spots" },
+    { emoji: "🥾", title: "Trekking" },
+    { emoji: "🏯", title: "Fort" },
+    
   ];
 
   return (
-    <section className="py-5" style={{ background: "#FAFAFA", minHeight: "100vh", marginTop: "50px" }}>
+    <section className="py-5" style={{ background: "#FAFAFA", minHeight: "100vh", marginTop:"50px" }}>
       <Container>
         <h2 className="text-center fw-bold mb-3">Select What Kind of Place You Want to Explore</h2>
         <p className="text-center text-muted mb-5">Click a category to explore places</p>
@@ -31,7 +32,10 @@ export default function TripStyles() {
               <Card
                 onClick={() => navigate(`/places/${cat.title}`)}
                 className="text-center p-4 shadow-sm rounded-3 h-100"
-                style={{ cursor: "pointer", transition: "transform 0.3s, box-shadow 0.3s" }}
+                style={{
+                  cursor: "pointer",
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-5px)";
                   e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.15)";
@@ -43,7 +47,7 @@ export default function TripStyles() {
               >
                 <div className="fs-1 mb-2">{cat.emoji}</div>
                 <h5 className="fw-semibold">{cat.title}</h5>
-                <small className="text-muted">{cat.sub}</small>
+                <small className="text-muted">Explore {cat.title}</small>
               </Card>
             </Col>
           ))}
@@ -51,4 +55,6 @@ export default function TripStyles() {
       </Container>
     </section>
   );
-}
+};
+
+export default CategoryFilter;

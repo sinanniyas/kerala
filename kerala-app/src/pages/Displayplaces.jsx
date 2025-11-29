@@ -37,6 +37,13 @@ const DisplayPlaces = () => {
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Scroll to top + paginate
+const handlePageChange = (page) => {
+  setCurrentPage(page);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentItems = placesData.slice(indexOfFirst, indexOfLast);
@@ -218,27 +225,30 @@ const DisplayPlaces = () => {
         </Row>
 
         {/* Pagination */}
-        <div className="d-flex justify-content-center mt-5">
-          <Pagination style={{ gap: "6px" }}>
-            <Pagination.Prev
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)}
-            />
-            {[...Array(totalPages)].map((_, i) => (
-              <Pagination.Item
-                key={i + 1}
-                active={i + 1 === currentPage}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => p + 1)}
-            />
-          </Pagination>
-        </div>
+       <div className="d-flex justify-content-center mt-5">
+  <Pagination style={{ gap: "6px" }}>
+    <Pagination.Prev
+      disabled={currentPage === 1}
+      onClick={() => handlePageChange(currentPage - 1)}
+    />
+
+    {[...Array(totalPages)].map((_, i) => (
+      <Pagination.Item
+        key={i + 1}
+        active={i + 1 === currentPage}
+        onClick={() => handlePageChange(i + 1)}
+      >
+        {i + 1}
+      </Pagination.Item>
+    ))}
+
+    <Pagination.Next
+      disabled={currentPage === totalPages}
+      onClick={() => handlePageChange(currentPage + 1)}
+    />
+  </Pagination>
+</div>
+
       </div>
     </div>
   );

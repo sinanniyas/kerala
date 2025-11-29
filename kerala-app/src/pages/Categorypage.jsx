@@ -28,6 +28,8 @@ const PlacesByCategory = () => {
     fetchPlaces();
   }, []);
 
+  
+
   // Derive unique categories from fetched data
   const categories = useMemo(() => {
     const cats = places.map((p) => p.category).filter(Boolean);

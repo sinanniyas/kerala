@@ -153,7 +153,7 @@ export default function NavbarTop() {
             <Nav.Link as={Link} to="/" style={{ color: "white" }} onClick={() => setExpanded(false)}>Home</Nav.Link>
             <Nav.Link as={Link} to="/places" style={{ color: "white" }} onClick={() => setExpanded(false)}>Places</Nav.Link>
             <Nav.Link as={Link} to="/catfil" style={{ color: "white" }} onClick={() => setExpanded(false)}>Experiences</Nav.Link>
-            <Nav.Link as={Link} to="/plan" style={{ color: "white" }} onClick={() => setExpanded(false)}>Plan Trip</Nav.Link>
+           
           </Nav>
         </Navbar.Collapse>
 

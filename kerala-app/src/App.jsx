@@ -7,6 +7,7 @@ import PlaceDetail from './pages/PlaceDetail';
 import DistrictPlaces from './pages/DistrictPlaces';
 import PlacesByCategory from './pages/Categorypage';
 import CategoryFilter from './pages/Categoryfilter';
+import Contactform from './pages/Contactform';
 
 const App = () => {
   return (
@@ -18,7 +19,8 @@ const App = () => {
           <Route path='/places/:category' element={<PlacesByCategory />} /> {/* <-- Dynamic route */}
           <Route path="place/:id" element={<PlaceDetail />} />
           <Route path="/district/:district" element={<DistrictPlaces />} />
-          <Route path='/catfil' element={<CategoryFilter/>}/>  
+          <Route path='/catfil' element={<CategoryFilter/>}/>
+          <Route path='/form' element={<Contactform/>}/>  
         </Route>
       </Routes>
     </BrowserRouter>

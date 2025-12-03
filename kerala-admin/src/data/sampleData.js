@@ -83,14 +83,14 @@ export const districts = [
 ];
 
 export const categories = [
-  "Beach",
-  "Hill Station",
-  "Heritage",
-  "Backwater",
-  "Waterfall",
-  "Wildlife",
-  "Temple",
-  "Fort",
-  "Village",
-  "Cultural Site"
+   "Heritage" ,
+    "Beaches" ,
+    "Hill Stations" ,
+    "Wildlife" ,
+    "Backwaters" ,
+    "Waterfalls" ,
+    "Scenic Spots" ,
+    "Trekking" ,
+    "Fort" ,
+    
 ];

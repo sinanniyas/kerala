@@ -5,6 +5,7 @@ import DashboardHome from './components/DashboardHome';
 import PlacesTable from './components/PlacesTable';
 import AddPlaceForm from './components/AddPlaceForm';
 import './styles/App.css';
+import AdminContacts from './components/Formdata';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard');
@@ -17,6 +18,8 @@ function App() {
         return <PlacesTable />;
       case 'add-place':
         return <AddPlaceForm />;
+      case 'form':
+         return <AdminContacts/>;
       default:
         return <DashboardHome />;
     }

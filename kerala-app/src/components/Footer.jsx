@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -29,6 +30,14 @@ export default function Footer() {
               <li>Instagram</li>
               <li>Youtube</li>
               <li>Tiktok</li>
+              <li >
+                <Link 
+                  to="/form"
+                  style={{ color: "#fff", textDecoration: "none", opacity: 0.7 }}
+                >
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </Col>
 

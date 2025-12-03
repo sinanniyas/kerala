@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import placeRoutes from "./routes/placeRoutes.js";
+import contactRoutes from "./routes/contact.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.use("/api/places", placeRoutes);
+app.use("/api/contact", contactRoutes);
 
 app.get("/", (req, res) => {
   res.send("Tourist Places API is running...");

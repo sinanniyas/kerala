@@ -3,42 +3,6 @@ import Place from "../models/Place.js";
 
 const router = express.Router();
 
-// ---------------- CATEGORY GROUPING MAP ----------------
-const categoryMap = {
-  Beaches: ["Beach"],
-  "Hill Stations": ["Hill Station", "Hill Region", "Hill Viewpoint"],
-  Wildlife: ["Wildlife", "Wildlife Sanctuary", "Forest", "Nature", "Adventure"],
-  Heritage: [
-    "Cultural Site",
-    "Heritage",
-    "Temple",
-    "Cultural Centre",
-    "Museum",
-    "Fort"
-  ],
-  Backwaters: ["Backwater", "Lake", "Island"],
-  Waterfalls: ["Waterfall"],
-  Trekking: ["Trekking", "Trekking Spot"],
-  "Scenic Spots": [
-    "Viewpoint",
-    "Scenic Point",
-    "Village",
-    "Garden & Dam",
-    "Garden & Art",
-    "Dam",
-    "Dam & Garden"
-  ]
-};
-
-function mapCategory(originalCategory) {
-  for (const main in categoryMap) {
-    if (categoryMap[main].includes(originalCategory)) {
-      return main;
-    }
-  }
-  return "Other"; // fallback
-}
-
 // ------------------- POST: ADD PLACE -------------------
 router.post("/", async (req, res) => {
   try {
@@ -50,20 +14,43 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ------------------- GET ALL PLACES -------------------
+// ------------------- GET PAGINATED PLACES -------------------
 router.get("/", async (req, res) => {
   try {
-    const places = await Place.find().sort({ createdAt: -1 });
+    let { page = 1, limit = 5 } = req.query;
+    page = Number(page);
+    limit = Number(limit);
 
-    // Add grouped category before sending response
-    const mappedPlaces = places.map((p) => ({
-      ...p.toObject(),
-      mainCategory: mapCategory(p.category)
-    }));
+    const total = await Place.countDocuments();
+    const totalPages = Math.ceil(total / limit);
 
-    res.json(mappedPlaces);
+    const places = await Place.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.json({ places, totalPages });
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch places" });
+    console.error("Error fetching places:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ------------------- DELETE PLACE -------------------
+router.delete("/:id", async (req, res) => {
+  try {
+    const placeId = req.params.id;
+
+    const deletedPlace = await Place.findByIdAndDelete(placeId);
+
+    if (!deletedPlace) {
+      return res.status(404).json({ message: "Place not found" });
+    }
+
+    res.json({ message: "Place deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting place:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

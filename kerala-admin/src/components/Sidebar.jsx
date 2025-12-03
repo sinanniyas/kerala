@@ -4,7 +4,8 @@ const Sidebar = ({ currentPage, setCurrentPage }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'places', label: 'Tourist Places', icon: '🏝️' },
-    { id: 'add-place', label: 'Add New Place', icon: '➕' }
+    { id: 'add-place', label: 'Add New Place', icon: '➕' },
+    { id: 'form' , label:'contacts' , icon: '📊'}
   ];
 
   return (

@@ -1,0 +1,66 @@
+/* Container */
+.admin-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Page title */
+.admin-container h2 {
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111;
+  text-align: center;
+}
+
+/* Table styling */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+  background-color: #111;
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-table tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.admin-table tr:hover {
+  background-color: #e9ecef;
+  transition: background 0.2s ease-in-out;
+}
+
+/* No messages row */
+.admin-table .no-messages {
+  padding: 20px;
+  font-style: italic;
+  color: #666;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}

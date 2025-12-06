@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 // ------------------- GET PAGINATED PLACES -------------------
 router.get("/", async (req, res) => {
   try {
-    let { page = 1, limit = 5 } = req.query;
+    let { page = 1, limit = 500 } = req.query;
     page = Number(page);
     limit = Number(limit);
 

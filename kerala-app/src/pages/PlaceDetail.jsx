@@ -17,7 +17,7 @@ const PlaceDetail = () => {
       try {
         const res = await axios.get(`${apiUrl}/api/places`);
 
-        const selected = res.data.find((p) => p._id === id);
+        const selected = res.data.places.find((p) => p._id === id);
 
         setPlace(selected);
       } catch (error) {

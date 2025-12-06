@@ -19,7 +19,7 @@ const PlacesByCategory = () => {
     const fetchPlaces = async () => {
       try {
         const res = await axios.get(`${apiUrl}/api/places`);
-        setPlaces(res.data);
+        setPlaces(res.data.places);
       } catch (err) {
         console.error(err);
       } finally {

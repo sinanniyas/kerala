@@ -12,23 +12,28 @@ const DisplayPlaces = () => {
 
   // ========== FETCH FROM BACKEND ==========
   useEffect(() => {
-    const fetchPlaces = async () => {
-      try {
-        const res = await axios.get(`${apiUrl}/api/places`);
-        const formatted = res.data.map((place) => ({
-          id: place._id,
-          title: place.name,
-          description: place.shortDescription,
-          image: place.imageUrl,
-          category: place.category,
-        }));
-        setPlacesData(formatted);
-      } catch (error) {
-        console.error("Error fetching places:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchPlaces = async () => {
+  try {
+    const res = await axios.get(`${apiUrl}/api/places`);
+
+    const array = res.data.data || res.data.places || res.data; 
+
+    const formatted = array.map((place) => ({
+      id: place._id,
+      title: place.name,
+      description: place.shortDescription,
+      image: place.imageUrl,
+      category: place.category,
+    }));
+
+    setPlacesData(formatted);
+  } catch (error) {
+    console.error("Error fetching places:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     fetchPlaces();
   }, []);

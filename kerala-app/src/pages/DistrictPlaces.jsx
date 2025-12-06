@@ -33,7 +33,7 @@ const DistrictPlaces = () => {
     const fetchPlaces = async () => {
       try {
         const res = await axios.get(`${apiUrl}/api/places`);
-        const districtFiltered = res.data.filter(
+        const districtFiltered = res.data.places.filter(
           (p) => p.district.toLowerCase() === district.toLowerCase()
         );
 

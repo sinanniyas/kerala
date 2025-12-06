@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 
 import placeRoutes from "./routes/placeRoutes.js";
 import contactRoutes from "./routes/contact.js";
@@ -14,13 +13,13 @@ const app = express();
 
 // CORS (IMPORTANT for JWT + cookies)
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend
-  credentials: true                 // allow cookies to be sent
+  origin: "*",    // allow ANY app, ANY website, ANY user
+  methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 
 
+
 app.use(express.json());
-app.use(cookieParser());
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
@@ -32,10 +31,7 @@ app.use("/api/places", placeRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/auth", authRoutes);
 
-// 🔥 Check login status for Navbar
-app.get("/api/auth/check", authMiddleware, (req, res) => {
-  res.json({ loggedIn: true, user: req.user });
-});
+
 
 app.get("/", (req, res) => {
   res.send("Tourist Places API is running...");

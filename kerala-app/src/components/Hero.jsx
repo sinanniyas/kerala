@@ -64,7 +64,7 @@ export default function Hero() {
               backdropFilter: "blur(10px)",
             }}
           >
-           Start Backpacking
+           Start Exploring
           </Button>
         </div>
       </Container>

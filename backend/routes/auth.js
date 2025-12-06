@@ -57,9 +57,9 @@ router.post("/login", async (req, res) => {
 
 // LOGOUT
 router.post("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.json({ message: "Logged out" });
+  res.json({ message: "Logged out (client must delete token)" });
 });
+
 router.get("/check", authMiddleware, (req, res) => {
   res.json({ loggedIn: true, user: req.user });
 });
